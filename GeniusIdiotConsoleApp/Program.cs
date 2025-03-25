@@ -46,9 +46,9 @@ namespace GeniusIdiotConsoleApp
                     }
                 }
 
-                string[] diagnoses = GetDiagnoses();
+                string userDiagnose = GetUserDiagnose(countRightAnswers, countQuestions);
                 Console.WriteLine($"Колличество правильных ответов: {countRightAnswers}");
-                Console.WriteLine($"{userName}, ваш диагноз: {diagnoses[countRightAnswers]}");
+                Console.WriteLine($"{userName}, ваш диагноз: {userDiagnose}");
 
                 bool userChoice = GetUserChoice("Хотите заново пройти тест?");
                 if (!userChoice)
@@ -68,7 +68,18 @@ namespace GeniusIdiotConsoleApp
                 else
                 { Console.WriteLine("Пожалуйста, введите число!"); }
             }
+        }
 
+        static string GetUserDiagnose(int countRightAnswer, int countQuestions)
+        {
+            string[] diagnoses = GetDiagnoses();
+            double percentage = (double)countRightAnswer / countQuestions * 100;
+            if (percentage == 0) { return diagnoses[0]; }
+            else if (percentage > 0 && percentage <= 25) { return diagnoses[1]; }
+            else if (percentage > 25 && percentage <= 50) { return diagnoses[2]; }
+            else if (percentage > 50 && percentage <= 75) { return diagnoses[3]; }
+            else if (percentage > 75 && percentage < 100) { return diagnoses[4]; }
+            else { return diagnoses[5]; }
         }
         static bool GetUserChoice(string message)
         {
