@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace GeniusIdiotConsoleApp
 {
@@ -47,6 +48,7 @@ namespace GeniusIdiotConsoleApp
                 }
 
                 string userDiagnose = GetUserDiagnose(countRightAnswers, countQuestions);
+                SaveUserResult(userName, countRightAnswers, userDiagnose);
                 Console.WriteLine($"Колличество правильных ответов: {countRightAnswers}");
                 Console.WriteLine($"{userName}, ваш диагноз: {userDiagnose}");
 
@@ -56,6 +58,12 @@ namespace GeniusIdiotConsoleApp
                     break;
                 }    
             }
+        }
+
+        static void SaveUserResult(string userName, int countRightAnswers, string diagnose)
+        {
+            StreamWriter sw = new StreamWriter("results.txt");
+            sw.WriteLine($"{0, -20}{1, -5}{2, -10}", userName, countRightAnswers, diagnose);
         }
 
         static int GetUserAnswer()
