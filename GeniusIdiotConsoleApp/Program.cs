@@ -62,8 +62,9 @@ namespace GeniusIdiotConsoleApp
 
         static void SaveUserResult(string userName, int countRightAnswers, string diagnose)
         {
-            StreamWriter sw = new StreamWriter("results.txt");
-            sw.WriteLine($"{0, -20}{1, -5}{2, -10}", userName, countRightAnswers, diagnose);
+            StreamWriter sw = new StreamWriter("results.txt", true);
+            sw.WriteLine($"{userName}&&&{countRightAnswers}&&&{diagnose}");
+            sw.Close();
         }
 
         static int GetUserAnswer()
