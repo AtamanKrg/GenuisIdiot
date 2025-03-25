@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace GeniusIdiotConsoleApp
@@ -52,7 +53,23 @@ namespace GeniusIdiotConsoleApp
                 Console.WriteLine($"Колличество правильных ответов: {countRightAnswers}");
                 Console.WriteLine($"{userName}, ваш диагноз: {userDiagnose}");
 
-                bool userChoice = GetUserChoice("Хотите заново пройти тест?");
+                bool userChoice = GetUserChoice("Хотите посмотреть все результаты?");
+                if (userChoice)
+                {
+                    List<string> userResults = GetUserResults();
+
+                    Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", "Имя", "Кол-во правильных ответов", "Диагноз");
+
+                    foreach (var userResult in userResults)
+                    {
+                        string[] user = userResult.Split('#');
+                        Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", user[0], user[1], user[2]);
+                    }
+
+                }
+
+
+                userChoice = GetUserChoice("Хотите заново пройти тест?");
                 if (!userChoice)
                 {
                     break;
@@ -60,10 +77,24 @@ namespace GeniusIdiotConsoleApp
             }
         }
 
+        static List<string> GetUserResults()
+        {
+            StreamReader sr = new StreamReader("results.txt");
+            List<string> userResults = new List<string>();
+
+            string line = sr.ReadLine();
+            while (line != null)
+            {
+                userResults.Add(line);
+                line = sr.ReadLine();
+            }
+            return userResults;
+        }
+
         static void SaveUserResult(string userName, int countRightAnswers, string diagnose)
         {
             StreamWriter sw = new StreamWriter("results.txt", true);
-            sw.WriteLine($"{userName}&&&{countRightAnswers}&&&{diagnose}");
+            sw.WriteLine($"{userName}#{countRightAnswers}#{diagnose}");
             sw.Close();
         }
 
