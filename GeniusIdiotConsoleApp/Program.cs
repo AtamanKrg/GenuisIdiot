@@ -56,24 +56,28 @@ namespace GeniusIdiotConsoleApp
                 bool userChoice = GetUserChoice("Хотите посмотреть все результаты?");
                 if (userChoice)
                 {
-                    List<string> userResults = GetUserResults();
-
-                    Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", "Имя", "Кол-во правильных ответов", "Диагноз");
-
-                    foreach (var userResult in userResults)
-                    {
-                        string[] user = userResult.Split('#');
-                        Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", user[0], user[1], user[2]);
-                    }
+                    PrintResults();
 
                 }
-
 
                 userChoice = GetUserChoice("Хотите заново пройти тест?");
                 if (!userChoice)
                 {
                     break;
                 }    
+            }
+        }
+
+        static void PrintResults()
+        {
+            List<string> userResults = GetUserResults();
+
+            Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", "Имя", "Кол-во правильных ответов", "Диагноз");
+
+            foreach (var userResult in userResults)
+            {
+                string[] user = userResult.Split('#');
+                Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", user[0], user[1], user[2]);
             }
         }
 
