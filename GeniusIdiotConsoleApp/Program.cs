@@ -9,11 +9,11 @@ namespace GeniusIdiotConsoleApp
         static void Main()
         {
             Console.WriteLine("Введите ваше имя:");
-            string userName = Console.ReadLine();
+            var userName = Console.ReadLine();
 
             int countQuestions = 5;
-            string[] questions = GetQuestions();
-            int[] answers = GetAnswers();
+            var questions = GetQuestions();
+            var answers = GetAnswers();
 
             while (true)
             {
@@ -38,9 +38,9 @@ namespace GeniusIdiotConsoleApp
                 {
                     Console.WriteLine($"{i + 1}. {questions[i]}");
 
-                    int userAnswer = GetUserAnswer();
+                    var userAnswer = GetUserAnswer();
 
-                    int rightAnswer = answers[i];
+                    var rightAnswer = answers[i];
 
                     if (userAnswer == rightAnswer)
                     {
@@ -48,12 +48,12 @@ namespace GeniusIdiotConsoleApp
                     }
                 }
 
-                string userDiagnose = GetUserDiagnose(countRightAnswers, countQuestions);
+                var userDiagnose = GetUserDiagnose(countRightAnswers, countQuestions);
                 SaveUserResult(userName, countRightAnswers, userDiagnose);
                 Console.WriteLine($"Колличество правильных ответов: {countRightAnswers}");
                 Console.WriteLine($"{userName}, ваш диагноз: {userDiagnose}");
 
-                bool userChoice = GetUserChoice("Хотите посмотреть все результаты?");
+                var userChoice = GetUserChoice("Хотите посмотреть все результаты?");
                 if (userChoice)
                 {
                     PrintResults();
@@ -70,23 +70,23 @@ namespace GeniusIdiotConsoleApp
 
         static void PrintResults()
         {
-            List<string> userResults = GetUserResults();
+            var userResults = GetUserResults();
 
             Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", "Имя", "Кол-во правильных ответов", "Диагноз");
 
             foreach (var userResult in userResults)
             {
-                string[] user = userResult.Split('#');
+                var user = userResult.Split('#');
                 Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", user[0], user[1], user[2]);
             }
         }
 
         static List<string> GetUserResults()
         {
-            StreamReader sr = new StreamReader("results.txt");
-            List<string> userResults = new List<string>();
+            var sr = new StreamReader("results.txt");
+            var userResults = new List<string>();
 
-            string line = sr.ReadLine();
+            var line = sr.ReadLine();
             while (line != null)
             {
                 userResults.Add(line);
@@ -97,7 +97,7 @@ namespace GeniusIdiotConsoleApp
 
         static void SaveUserResult(string userName, int countRightAnswers, string diagnose)
         {
-            StreamWriter sw = new StreamWriter("results.txt", true);
+            var sw = new StreamWriter("results.txt", true);
             sw.WriteLine($"{userName}#{countRightAnswers}#{diagnose}");
             sw.Close();
         }
@@ -106,7 +106,7 @@ namespace GeniusIdiotConsoleApp
         {
             while (true)
             {
-                string answer = Console.ReadLine();
+                var answer = Console.ReadLine();
                 if (int.TryParse(answer, out int userAnswer))
                 { return userAnswer; }
                 else
@@ -116,7 +116,7 @@ namespace GeniusIdiotConsoleApp
 
         static string GetUserDiagnose(int countRightAnswer, int countQuestions)
         {
-            string[] diagnoses = GetDiagnoses();
+            var diagnoses = GetDiagnoses();
             double percentage = (double)countRightAnswer / countQuestions * 100;
             if (percentage == 0) { return diagnoses[0]; }
             else if (percentage > 0 && percentage <= 25) { return diagnoses[1]; }
