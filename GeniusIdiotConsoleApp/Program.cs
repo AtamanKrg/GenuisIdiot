@@ -36,7 +36,7 @@ namespace GeniusIdiotConsoleApp
                 {
                     Console.WriteLine($"{i + 1}. {questions[i]}");
 
-                    int userAnswer = int.Parse(Console.ReadLine());
+                    int userAnswer = GetUserAnswer();
 
                     int rightAnswer = answers[i];
 
@@ -56,6 +56,19 @@ namespace GeniusIdiotConsoleApp
                     break;
                 }    
             }
+        }
+
+        static int GetUserAnswer()
+        {
+            while (true)
+            {
+                string answer = Console.ReadLine();
+                if (int.TryParse(answer, out int userAnswer))
+                { return userAnswer; }
+                else
+                { Console.WriteLine("Пожалуйста, введите число!"); }
+            }
+
         }
         static bool GetUserChoice(string message)
         {
