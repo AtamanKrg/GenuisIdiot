@@ -5,21 +5,19 @@ using System.Text;
 
 namespace GeniusIdiotConsoleApp
 {
-    internal class Program
+    public class Program
     {
         static void Main()
         {
             Console.WriteLine("Введите ваше имя:");
-            User user = new User();
-            user.Name = Console.ReadLine();
+            var user = new User(Console.ReadLine());
 
             while (true)
             {
                 Console.Clear();
 
                 user.CountRightAnswers = 0;
-                QuestionsStorage questionsStorage = new QuestionsStorage();
-                var questions = questionsStorage.GetAll();
+                var questions = QuestionsStorage.GetAll();
 
                 var countQuestions = questions.Count;
 
@@ -30,13 +28,13 @@ namespace GeniusIdiotConsoleApp
                     var randomQuestionIndex = random.Next(0, questions.Count);
                     Console.WriteLine($"{i + 1}. {questions[randomQuestionIndex].Text}");
 
-                    var userAnswer = GetUserAnswer();
+                    var userAnswer = GetNumber();
 
                     var rightAnswer = questions[randomQuestionIndex].Answer;
 
                     if (userAnswer == rightAnswer)
                     {
-                        user.CountRightAnswers++;
+                        user.AcceptRightAnswer();
                     }
 
                     questions.RemoveAt(randomQuestionIndex);
@@ -44,8 +42,7 @@ namespace GeniusIdiotConsoleApp
 
                 user.Diagnose = GetUserDiagnose(user.CountRightAnswers, countQuestions);
 
-                UserResultsStorage userResultsStorage = new UserResultsStorage();
-                userResultsStorage.SaveUserResult(user);
+                UserResultsStorage.Save(user);
                 
                 Console.WriteLine($"Колличество правильных ответов: {user.CountRightAnswers}");
                 Console.WriteLine($"{user.Name}, ваш диагноз: {user.Diagnose}");
@@ -53,37 +50,19 @@ namespace GeniusIdiotConsoleApp
                 var userChoice = GetUserChoice("Хотите посмотреть предыдущие результаты?");
                 if (userChoice)
                 {
-                    userResultsStorage.ShowUserResults();
+                    ShowUserResults();
                 }
 
                 userChoice = GetUserChoice("Хотите добавить новый вопрос?");
                 if (userChoice)
                 {
-                    Console.WriteLine("Введите текст вопроса: ");
-                    string text = Console.ReadLine();
-                    Console.WriteLine("Введите числовой ответ на вопрос: ");
-                    int answer = GetUserAnswer();
-                    questionsStorage.Add(new Question(text, answer));
+                    AddNewQuestion();
                 }
 
                 userChoice = GetUserChoice("Хотите удалить существующий вопрос?");
                 if (userChoice)
                 {
-                    questionsStorage.ShowAll();
-                    Console.WriteLine("Введите номер удаляемого вопроса: ");
-                    while (true)
-                    {
-                        var number = GetUserAnswer();
-                        if (number > countQuestions || number <= 0)
-                        {
-                            Console.WriteLine("Введите существующий номер вопроса!");
-                        }
-                        else
-                        {
-                            questionsStorage.RemoveAt(number);
-                            break;
-                        }
-                    }
+                    RemoveQuestion();
                 }
 
                 userChoice = GetUserChoice("Хотите заново пройти тест?");
@@ -94,7 +73,50 @@ namespace GeniusIdiotConsoleApp
             }
         }
 
-        static int GetUserAnswer()
+        static void ShowUserResults()
+        {
+            var userResults = UserResultsStorage.GetAll();
+
+            Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", "Имя", "Кол-во правильных ответов", "Диагноз");
+
+            foreach (var user in userResults)
+            {
+                Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", user.Name, user.CountRightAnswers, user.Diagnose);
+            }
+
+        }
+        static void AddNewQuestion()
+        {
+            Console.WriteLine("Введите текст вопроса: ");
+            string text = Console.ReadLine();
+            Console.WriteLine("Введите числовой ответ на вопрос: ");
+            int answer = GetNumber();
+
+            QuestionsStorage.Add(new Question(text, answer));
+        }
+        static void RemoveQuestion()
+        {
+            var questions = QuestionsStorage.GetAll();
+            for (int i = 0;  i < questions.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {questions[i].Text}");
+            }
+            Console.WriteLine("Введите номер удаляемого вопроса: ");
+            while (true)
+            {
+                var number = GetNumber();
+                if (number > questions.Count || number <= 0)
+                {
+                    Console.WriteLine($"Введите число от 1 до {questions.Count}");
+                }
+                else
+                {
+                    QuestionsStorage.Remove(questions[number - 1]);
+                    break;
+                }
+            }
+        }
+        static int GetNumber()
         {
             while (true)
             {

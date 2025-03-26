@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,28 +8,25 @@ namespace GeniusIdiotConsoleApp
 {
     public class UserResultsStorage
     {
-        public UserResultsStorage() { }
-
-        public void ShowUserResults()
+        public static List<User> GetAll()
         {
-            var sr = new StreamReader("results.txt", Encoding.UTF8);
+            var value = FileProvider.GetValue("results.txt");
+            var lines = value.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var results = new List<User>(); 
 
-            Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", "Имя", "Кол-во правильных ответов", "Диагноз");
-
-            while (!sr.EndOfStream)
+            foreach (var line in lines)
             {
-                var userResult = sr.ReadLine();
-                var user = userResult.Split('#');
-                Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", user[0], user[1], user[2]);
+                var userResult = line.Split('#');
+                var user = new User(userResult[0], int.Parse(userResult[1]), userResult[2]);
+                results.Add(user);
             }
-            sr.Close();
-
+            return results;
         }
 
-        public void SaveUserResult(User user)
+        public static void Save(User user)
         {
             var value = $"{user.Name}#{user.CountRightAnswers}#{user.Diagnose}";
-            new FileSystem().AppendToFile("results.txt", value);
+            FileProvider.Append("results.txt", value);
         }
     }
 }

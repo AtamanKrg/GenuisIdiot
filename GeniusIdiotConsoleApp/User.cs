@@ -12,6 +12,22 @@ namespace GeniusIdiotConsoleApp
         public int CountRightAnswers { get; set; } = 0;
         public string Diagnose { get; set; }
 
-        public User() { }
+        public User(string name) 
+        {
+            Name = name;
+            Diagnose = "Неизвестно";
+        }
+
+        public User(string name,  int countRightAnswers, string diagnose)
+        {
+            Name = name;
+            CountRightAnswers = countRightAnswers;
+            Diagnose = diagnose;
+        }
+
+        public void AcceptRightAnswer()
+        {
+            CountRightAnswers++;
+        }
     }
 }

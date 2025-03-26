@@ -1,85 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeniusIdiotConsoleApp
 {
     public class QuestionsStorage
     {
-        public QuestionsStorage() 
+        public static List<Question> GetAll()
         {
-            FileSystem fileSystem = new FileSystem();
-            if (!fileSystem.Exists("questions.txt"))
+            if (!FileProvider.Exists("questions.txt"))
             {
-                fileSystem.AppendToFile("questions.txt", "Сколько будет два плюс два, умноженное на два?#6");
-                fileSystem.AppendToFile("questions.txt", "Бревно нужно распилить на 10 частей, сколько распилов нужно сделать?#9");
-                fileSystem.AppendToFile("questions.txt", "На двух руках 10 пальцев, сколько пальцев на пяти руках?#25");
-                fileSystem.AppendToFile("questions.txt", "Укол делают каждые полчаса, сколько нужно минут, чтобы сделать три укола?#60");
-                fileSystem.AppendToFile("questions.txt", "Пять свечей горело, две потухли. Сколько свечей осталось?#2");
+                FileProvider.Append("questions.txt", "Сколько будет два плюс два, умноженное на два?#6");
+                FileProvider.Append("questions.txt", "Бревно нужно распилить на 10 частей, сколько распилов нужно сделать?#9");
+                FileProvider.Append("questions.txt", "На двух руках 10 пальцев, сколько пальцев на пяти руках?#25");
+                FileProvider.Append("questions.txt", "Укол делают каждые полчаса, сколько нужно минут, чтобы сделать три укола?#60");
+                FileProvider.Append("questions.txt", "Пять свечей горело, две потухли. Сколько свечей осталось?#2");
             }
-        }
 
-        public List<Question> GetAll()
-        {
             var questions = new List<Question>();
-            var sr = new StreamReader("questions.txt");
-            while (!sr.EndOfStream) 
+            var value = FileProvider.GetValue("questions.txt");
+            var lines = value.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var line in lines)
             {
-                var line = sr.ReadLine().Split('#');
-                var question = new Question(line[0], int.Parse(line[1]));
+                var values = line.Split('#');
+                var question = new Question(values[0], int.Parse(values[1]));
                 questions.Add(question);
             }
-            sr.Close();
             return questions;
         }
 
-        public void ShowAll()
-        {
-            int i = 1;
-            var sr = new StreamReader("questions.txt");
-            while (!sr.EndOfStream)
-            {
-                var line = sr.ReadLine().Split('#');
-                Console.WriteLine($"{i}. {line[0]}");
-                i++;
-            }
-            sr.Close();
-        }
-
-        public void Add(Question question)
+        public static void Add(Question question)
         {
             var value = $"{question.Text}#{question.Answer}";
-            new FileSystem().AppendToFile("questions.txt", value);
+            FileProvider.Append("questions.txt", value);
         }
 
-        public void RemoveAt(int number)
+        private static void SaveQuestions(List<Question> questions)
         {
-            var sr = new StreamReader("questions.txt");
-            var questions = new List<string>();
-            var index = 1;
-            while (!sr.EndOfStream)
+            foreach (var question in questions)
             {
-                if (index != number)
-                {
-                    var line = sr.ReadLine();
-                    questions.Add(line);
-                }
-                else
-                {
-                    var _ = sr.ReadLine();
-                }
-                index++;
+                Add(question);
             }
-            sr.Close();
-            var sw = new StreamWriter("questions.txt", false, Encoding.UTF8);
-            foreach (var line in questions)
-            {
-                sw.WriteLine(line);
-            }
-            sw.Close();
+        }
+        public static void Remove(Question removedQuestion)
+        {
+            var questions = GetAll();
+            questions.Remove(removedQuestion);
+
+            FileProvider.Clear("questions.txt");
+
+            SaveQuestions(questions);
         }
     }
 }
