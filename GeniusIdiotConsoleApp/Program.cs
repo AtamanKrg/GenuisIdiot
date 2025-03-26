@@ -19,7 +19,7 @@ namespace GeniusIdiotConsoleApp
 
                 user.CountRightAnswers = 0;
                 QuestionsStorage questionsStorage = new QuestionsStorage();
-                var questions = questionsStorage.GetQuestions();
+                var questions = questionsStorage.GetAll();
 
                 var countQuestions = questions.Count;
 
@@ -66,6 +66,26 @@ namespace GeniusIdiotConsoleApp
                     questionsStorage.Add(new Question(text, answer));
                 }
 
+                userChoice = GetUserChoice("Хотите удалить существующий вопрос?");
+                if (userChoice)
+                {
+                    questionsStorage.ShowAll();
+                    Console.WriteLine("Введите номер удаляемого вопроса: ");
+                    while (true)
+                    {
+                        var number = GetUserAnswer();
+                        if (number > countQuestions || number <= 0)
+                        {
+                            Console.WriteLine("Введите существующий номер вопроса!");
+                        }
+                        else
+                        {
+                            questionsStorage.RemoveAt(number);
+                            break;
+                        }
+                    }
+                }
+
                 userChoice = GetUserChoice("Хотите заново пройти тест?");
                 if (!userChoice)
                 {
@@ -84,7 +104,7 @@ namespace GeniusIdiotConsoleApp
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Введите чило!");
+                    Console.WriteLine("Введите чиcло!");
                 }
                 catch (OverflowException)
                 {

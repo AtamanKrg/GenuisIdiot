@@ -22,7 +22,7 @@ namespace GeniusIdiotConsoleApp
             }
         }
 
-        public List<Question> GetQuestions()
+        public List<Question> GetAll()
         {
             var questions = new List<Question>();
             var sr = new StreamReader("questions.txt");
@@ -36,11 +36,50 @@ namespace GeniusIdiotConsoleApp
             return questions;
         }
 
+        public void ShowAll()
+        {
+            int i = 1;
+            var sr = new StreamReader("questions.txt");
+            while (!sr.EndOfStream)
+            {
+                var line = sr.ReadLine().Split('#');
+                Console.WriteLine($"{i}. {line[0]}");
+                i++;
+            }
+            sr.Close();
+        }
+
         public void Add(Question question)
         {
             var value = $"{question.Text}#{question.Answer}";
             new FileSystem().AppendToFile("questions.txt", value);
         }
 
+        public void RemoveAt(int number)
+        {
+            var sr = new StreamReader("questions.txt");
+            var questions = new List<string>();
+            var index = 1;
+            while (!sr.EndOfStream)
+            {
+                if (index != number)
+                {
+                    var line = sr.ReadLine();
+                    questions.Add(line);
+                }
+                else
+                {
+                    var _ = sr.ReadLine();
+                }
+                index++;
+            }
+            sr.Close();
+            var sw = new StreamWriter("questions.txt", false, Encoding.UTF8);
+            foreach (var line in questions)
+            {
+                sw.WriteLine(line);
+            }
+            sw.Close();
+        }
     }
 }
