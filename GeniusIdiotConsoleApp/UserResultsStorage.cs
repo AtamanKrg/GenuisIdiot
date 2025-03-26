@@ -9,8 +9,6 @@ namespace GeniusIdiotConsoleApp
 {
     public class UserResultsStorage
     {
-        public List<User> Users { get; set; }
-
         public UserResultsStorage() { }
 
         public void ShowUserResults()
@@ -25,6 +23,7 @@ namespace GeniusIdiotConsoleApp
                 var user = userResult.Split('#');
                 Console.WriteLine("|| {0, -15} || {1, -30} || {2, -10} ||", user[0], user[1], user[2]);
             }
+            sr.Close();
 
         }
 

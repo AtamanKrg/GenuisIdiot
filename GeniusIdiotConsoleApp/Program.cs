@@ -13,14 +13,15 @@ namespace GeniusIdiotConsoleApp
             User user = new User();
             user.Name = Console.ReadLine();
 
-            QuestionsStorage questionsStorage = new QuestionsStorage();
-            var questions = questionsStorage.GetQuestions();
-
-            var countQuestions = questions.Count;
-
             while (true)
             {
                 Console.Clear();
+
+                user.CountRightAnswers = 0;
+                QuestionsStorage questionsStorage = new QuestionsStorage();
+                var questions = questionsStorage.GetQuestions();
+
+                var countQuestions = questions.Count;
 
                 Random random = new Random();
 
@@ -53,7 +54,16 @@ namespace GeniusIdiotConsoleApp
                 if (userChoice)
                 {
                     userResultsStorage.ShowUserResults();
+                }
 
+                userChoice = GetUserChoice("Хотите добавить новый вопрос?");
+                if (userChoice)
+                {
+                    Console.WriteLine("Введите текст вопроса: ");
+                    string text = Console.ReadLine();
+                    Console.WriteLine("Введите числовой ответ на вопрос: ");
+                    int answer = GetUserAnswer();
+                    questionsStorage.Add(new Question(text, answer));
                 }
 
                 userChoice = GetUserChoice("Хотите заново пройти тест?");

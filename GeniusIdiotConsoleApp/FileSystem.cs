@@ -15,5 +15,10 @@ namespace GeniusIdiotConsoleApp
             sw.WriteLine(value);
             sw.Close();
         }
+
+        public bool Exists(string path)
+        {
+            return File.Exists(path);
+        }
     }
 }
