@@ -8,8 +8,8 @@ namespace GeniusIdiotConsoleApp
 {
     public class User
     {
-        public string Username {  get; set; }
-        public int CountRightAnswers { get; set; }
+        public string Name {  get; set; }
+        public int CountRightAnswers { get; set; } = 0;
         public string Diagnose { get; set; }
 
         public User() { }
