@@ -31,8 +31,7 @@ namespace GeniusIdiotConsoleApp
 
         public static void Clear(string fileName)
         {
-            File.Delete(fileName);
-            File.Create(fileName).Close();
+            File.WriteAllText(fileName, string.Empty);
         }
     }
 }

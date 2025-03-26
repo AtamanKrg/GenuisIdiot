@@ -111,7 +111,7 @@ namespace GeniusIdiotConsoleApp
                 }
                 else
                 {
-                    QuestionsStorage.Remove(questions[number - 1]);
+                    QuestionsStorage.RemoveAt(number - 1);
                     break;
                 }
             }

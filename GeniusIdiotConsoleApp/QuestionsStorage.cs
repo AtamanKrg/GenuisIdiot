@@ -43,10 +43,10 @@ namespace GeniusIdiotConsoleApp
                 Add(question);
             }
         }
-        public static void Remove(Question removedQuestion)
+        public static void RemoveAt(int index)
         {
             var questions = GetAll();
-            questions.Remove(removedQuestion);
+            questions.RemoveAt(index);
 
             FileProvider.Clear("questions.txt");
 
