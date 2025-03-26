@@ -9,9 +9,9 @@ namespace GeniusIdiotConsoleApp
     public class Question
     {
         public string Text { get; set; }
-        public string Answer { get; set; }
+        public int Answer { get; set; }
 
-        public Question(string text, string answer)
+        public Question(string text, int answer)
         {
             Text = text;
             Answer = answer;
