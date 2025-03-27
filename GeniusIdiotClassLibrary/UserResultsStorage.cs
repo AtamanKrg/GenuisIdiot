@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeniusIdiotConsoleApp
+namespace GeniusIdiotClassLibrary
 {
     public class UserResultsStorage
     {
+        private readonly static string path = "results.txt";
         public static List<User> GetAll()
         {
-            var value = FileProvider.GetValue("results.txt");
+            var value = FileProvider.GetValue(path);
             var lines = value.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             var results = new List<User>(); 
 
@@ -26,7 +27,7 @@ namespace GeniusIdiotConsoleApp
         public static void Save(User user)
         {
             var value = $"{user.Name}#{user.CountRightAnswers}#{user.Diagnose}";
-            FileProvider.Append("results.txt", value);
+            FileProvider.Append(path, value);
         }
     }
 }

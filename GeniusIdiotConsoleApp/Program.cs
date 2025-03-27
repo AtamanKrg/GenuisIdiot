@@ -1,7 +1,6 @@
-﻿using System;
+﻿using GeniusIdiotClassLibrary;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace GeniusIdiotConsoleApp
 {
@@ -40,7 +39,7 @@ namespace GeniusIdiotConsoleApp
                     questions.RemoveAt(randomQuestionIndex);
                 }
 
-                user.Diagnose = GetUserDiagnose(user.CountRightAnswers, countQuestions);
+                user.Diagnose = DiagnoseCalculator.Calculate(countQuestions, user);
 
                 UserResultsStorage.Save(user);
                 
@@ -111,7 +110,7 @@ namespace GeniusIdiotConsoleApp
                 }
                 else
                 {
-                    QuestionsStorage.RemoveAt(number - 1);
+                    QuestionsStorage.Remove(questions[number - 1]);
                     break;
                 }
             }
@@ -135,13 +134,6 @@ namespace GeniusIdiotConsoleApp
             }
 
         }
-        static string GetUserDiagnose(int countRightAnswer, int countQuestions)
-        {
-            var diagnoses = GetDiagnoses();
-            var percentage = countRightAnswer * 100 / countQuestions;
-
-            return diagnoses[percentage / 20];
-        }
         static bool GetUserChoice(string message)
         {
             Console.WriteLine($"{message} Введите да или нет:");
@@ -159,10 +151,6 @@ namespace GeniusIdiotConsoleApp
                     else { return false; }
                 }
             }
-        }
-        static List<string> GetDiagnoses()
-        {
-            return new List<string> { "Идиот", "Кретин", "Дурак", "Нормальный", "Талант", "Гений" };
         }
     }
 }
