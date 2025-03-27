@@ -26,9 +26,12 @@ namespace GeniusIdiotWindowsFormsApp
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            var startForm = new StartForm();
+            startForm.ShowDialog();
+
+            user = new User(startForm.Username);
             questions = QuestionsStorage.GetAll();
             countQuestions = questions.Count;
-            user = new User("Неизвестно");
 
             ShowNextQuestion();
         }
@@ -48,8 +51,12 @@ namespace GeniusIdiotWindowsFormsApp
 
         private void nextButton_Click(object sender, EventArgs e)
         {
+            if (!int.TryParse(userAnswerTextBox.Text, out int _))
+            {
+                MessageBox.Show("Введите число!");
+                return;
+            }
             var userAnswer = Convert.ToInt32(userAnswerTextBox.Text);
-
             var rightAnswer = currentQuestion.Answer;
 
             if (userAnswer == rightAnswer)
@@ -63,11 +70,28 @@ namespace GeniusIdiotWindowsFormsApp
             if (endGame)
             {
                 user.Diagnose = DiagnoseCalculator.Calculate(countQuestions, user);
+                UserResultsStorage.Save(user);
                 MessageBox.Show($"{user.Name}, ваш диагноз: {user.Diagnose}");
                 return;
             }
 
             ShowNextQuestion();
+        }
+
+        private void restartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
+        private void resultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var resultsForm = new ResultsForm();
+            resultsForm.ShowDialog();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
