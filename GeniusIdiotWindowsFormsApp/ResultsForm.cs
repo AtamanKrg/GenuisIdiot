@@ -1,12 +1,5 @@
-﻿using GeniusIdiotClassLibrary;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using GeniusIdiot.Common;
 using System.Windows.Forms;
 
 namespace GeniusIdiotWindowsFormsApp
@@ -20,13 +13,10 @@ namespace GeniusIdiotWindowsFormsApp
 
         private void ResultsForm_Load(object sender, EventArgs e)
         {
-            var users = UserResultsStorage.GetAll();
-            for (int i = 0; i < users.Count; i++)
+            var results = UserResultsStorage.GetAll();
+            foreach (var result in  results)
             {
-                dataGridView.Rows.Add();
-                dataGridView.Rows[i].Cells[0].Value = users[i].Name;
-                dataGridView.Rows[i].Cells[1].Value = users[i].CountRightAnswers;
-                dataGridView.Rows[i].Cells[2].Value = users[i].Diagnose;
+                resultsDataGridView.Rows.Add(result.Name, result.CountRightAnswers, result.Diagnose);
             }
         }
     }

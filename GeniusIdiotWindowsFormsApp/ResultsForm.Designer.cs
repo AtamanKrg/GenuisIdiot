@@ -28,26 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.resultsDataGridView = new System.Windows.Forms.DataGridView();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ResultColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DiagnoseColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView
+            // resultsDataGridView
             // 
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.resultsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.resultsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NameColumn,
             this.ResultColumn,
             this.DiagnoseColumn});
-            this.dataGridView.Location = new System.Drawing.Point(13, 13);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowHeadersWidth = 51;
-            this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.Size = new System.Drawing.Size(428, 150);
-            this.dataGridView.TabIndex = 0;
+            this.resultsDataGridView.Location = new System.Drawing.Point(13, 13);
+            this.resultsDataGridView.Name = "resultsDataGridView";
+            this.resultsDataGridView.RowHeadersWidth = 51;
+            this.resultsDataGridView.RowTemplate.Height = 24;
+            this.resultsDataGridView.Size = new System.Drawing.Size(428, 150);
+            this.resultsDataGridView.TabIndex = 0;
             // 
             // NameColumn
             // 
@@ -75,18 +75,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 450);
-            this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.resultsDataGridView);
             this.Name = "ResultsForm";
             this.Text = "Результаты";
             this.Load += new System.EventHandler(this.ResultsForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.DataGridView resultsDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ResultColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DiagnoseColumn;

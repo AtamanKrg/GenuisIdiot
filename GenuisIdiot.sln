@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeniusIdiotConsoleApp", "Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeniusIdiotWindowsFormsApp", "GeniusIdiotWindowsFormsApp\GeniusIdiotWindowsFormsApp.csproj", "{D515498D-D157-4E76-9D49-F887C66C1397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeniusIdiotClassLibrary", "GeniusIdiotClassLibrary\GeniusIdiotClassLibrary.csproj", "{A6BB09AB-CE36-4DBD-AE18-FC8C816565C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeniusIdiot.Common", "GeniusIdiotClassLibrary\GeniusIdiot.Common.csproj", "{A6BB09AB-CE36-4DBD-AE18-FC8C816565C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

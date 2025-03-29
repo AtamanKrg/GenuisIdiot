@@ -1,4 +1,5 @@
-﻿using GeniusIdiotClassLibrary;
+﻿using GeniusIdiot.Common;
+using GeniusIdiotClassLibrary;
 using System;
 using System.Collections.Generic;
 
@@ -10,41 +11,28 @@ namespace GeniusIdiotConsoleApp
         {
             Console.WriteLine("Введите ваше имя:");
             var user = new User(Console.ReadLine());
+            Game game = new Game(user);
 
             while (true)
             {
                 Console.Clear();
 
-                user.CountRightAnswers = 0;
-                var questions = QuestionsStorage.GetAll();
-
-                var countQuestions = questions.Count;
-
-                Random random = new Random();
-
-                for (int i = 0; i < countQuestions; i++)
+                while(!game.End())
                 {
-                    var randomQuestionIndex = random.Next(0, questions.Count);
-                    Console.WriteLine($"{i + 1}. {questions[randomQuestionIndex].Text}");
+                    var currentQuestion = game.GetNextQuestion();
+
+                    Console.WriteLine(game.GetQuestionNumberText());
+                    Console.WriteLine(currentQuestion.Text);
 
                     var userAnswer = GetNumber();
 
-                    var rightAnswer = questions[randomQuestionIndex].Answer;
-
-                    if (userAnswer == rightAnswer)
-                    {
-                        user.AcceptRightAnswer();
-                    }
-
-                    questions.RemoveAt(randomQuestionIndex);
+                    game.AcceptAnswer(userAnswer);
                 }
 
-                user.Diagnose = DiagnoseCalculator.Calculate(countQuestions, user);
+                var message = game.CalculateDiagnose();
 
-                UserResultsStorage.Save(user);
-                
                 Console.WriteLine($"Колличество правильных ответов: {user.CountRightAnswers}");
-                Console.WriteLine($"{user.Name}, ваш диагноз: {user.Diagnose}");
+                Console.WriteLine(message);
 
                 var userChoice = GetUserChoice("Хотите посмотреть предыдущие результаты?");
                 if (userChoice)
@@ -117,21 +105,12 @@ namespace GeniusIdiotConsoleApp
         }
         static int GetNumber()
         {
-            while (true)
+            int number;
+            while (!InputValidator.TryParseToNumber(Console.ReadLine(), out number, out string errorMessage))
             {
-                try
-                {
-                    return int.Parse(Console.ReadLine());
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Введите чиcло!");
-                }
-                catch (OverflowException)
-                {
-                    Console.WriteLine("Введите число от -2 * 10^9 до 2 * 10^9!");
-                }
+                Console.WriteLine(errorMessage);
             }
+            return number;
 
         }
         static bool GetUserChoice(string message)

@@ -1,24 +1,14 @@
-﻿using GeniusIdiotClassLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GeniusIdiot.Common;
 using System.Windows.Forms;
-
+using GeniusIdiotClassLibrary;
 
 namespace GeniusIdiotWindowsFormsApp
 {
     public partial class MainForm : Form
     {
-        private List<Question> questions {  get; set; }
-        private Question currentQuestion { get; set; }
-        private int countQuestions { get; set; }
-        private User user { get; set; }
-        private int questionNumber { get; set; } = 0;
+        Game game { get; set; }
         public MainForm()
         {
             InitializeComponent();
@@ -29,53 +19,39 @@ namespace GeniusIdiotWindowsFormsApp
             var startForm = new StartForm();
             startForm.ShowDialog();
 
-            user = new User(startForm.Username);
-            questions = QuestionsStorage.GetAll();
-            countQuestions = questions.Count;
+            var user = new User(startForm.userNameMaskedTextBox.Text);
+            game = new Game(user);
 
             ShowNextQuestion();
         }
 
         private void ShowNextQuestion()
         {
-            var random = new Random();
-            var randomIndex = random.Next(0, questions.Count);
-            currentQuestion = questions[randomIndex];
-
-            questionTextLabel.Text = currentQuestion.Text;
-
-            questionNumber++;
-            questionNumberLabel.Text = $"Вопрос №{questionNumber}";
-
+            questionTextLabel.Text = game.GetNextQuestion().Text;
+            questionNumberLabel.Text = game.GetQuestionNumberText();
         }
 
         private void nextButton_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(userAnswerTextBox.Text, out int _))
+            var parsed = InputValidator.TryParseToNumber(userAnswerTextBox.Text, out int userAnswer, out string errorMessage);
+            if (!parsed)
             {
-                MessageBox.Show("Введите число!");
-                return;
+                MessageBox.Show(errorMessage);
             }
-            var userAnswer = Convert.ToInt32(userAnswerTextBox.Text);
-            var rightAnswer = currentQuestion.Answer;
-
-            if (userAnswer == rightAnswer)
+            else
             {
-                user.AcceptRightAnswer();
+                game.AcceptAnswer(userAnswer);
+
+                if (game.End())
+                {
+                    var message = game.CalculateDiagnose();
+                    MessageBox.Show(message);
+                }
+                else
+                {
+                    ShowNextQuestion();
+                }
             }
-
-            questions.Remove(currentQuestion);
-
-            var endGame = questions.Count == 0;
-            if (endGame)
-            {
-                user.Diagnose = DiagnoseCalculator.Calculate(countQuestions, user);
-                UserResultsStorage.Save(user);
-                MessageBox.Show($"{user.Name}, ваш диагноз: {user.Diagnose}");
-                return;
-            }
-
-            ShowNextQuestion();
         }
 
         private void restartToolStripMenuItem_Click(object sender, EventArgs e)

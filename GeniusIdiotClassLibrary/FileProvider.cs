@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeniusIdiotClassLibrary
+namespace GeniusIdiot.Common
 {
     public class FileProvider
     {

@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeniusIdiotClassLibrary\GeniusIdiotClassLibrary.csproj">
+    <ProjectReference Include="..\GeniusIdiotClassLibrary\GeniusIdiot.Common.csproj">
       <Project>{a6bb09ab-ce36-4dbd-ae18-fc8c816565c6}</Project>
-      <Name>GeniusIdiotClassLibrary</Name>
+      <Name>GeniusIdiot.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

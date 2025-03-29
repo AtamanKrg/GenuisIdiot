@@ -57,7 +57,6 @@
             // userNameMaskedTextBox
             // 
             this.userNameMaskedTextBox.Location = new System.Drawing.Point(12, 137);
-            this.userNameMaskedTextBox.Mask = "LLLLLLLLLLLLLLL";
             this.userNameMaskedTextBox.Name = "userNameMaskedTextBox";
             this.userNameMaskedTextBox.Size = new System.Drawing.Size(368, 22);
             this.userNameMaskedTextBox.TabIndex = 3;
@@ -82,6 +81,6 @@
 
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.Label userNameLabel;
-        private System.Windows.Forms.MaskedTextBox userNameMaskedTextBox;
+        public System.Windows.Forms.MaskedTextBox userNameMaskedTextBox;
     }
 }

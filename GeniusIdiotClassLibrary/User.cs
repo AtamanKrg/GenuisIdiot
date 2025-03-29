@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeniusIdiotClassLibrary
+namespace GeniusIdiot.Common
 {
     public class User
     {
         public string Name {  get; set; }
-        public int CountRightAnswers { get; set; } = 0;
+        public int CountRightAnswers { get; set; }
         public string Diagnose { get; set; }
 
         public User(string name) 
         {
             Name = name;
+            CountRightAnswers = 0;
             Diagnose = "Неизвестно";
         }
 
